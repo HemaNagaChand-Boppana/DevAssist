@@ -7,33 +7,33 @@ const router = express.Router();
 router.post("/", (req, res) => {
   const { code, input } = req.body;
 
+  // write file
   fs.writeFileSync("Main.java", code);
 
-  exec("docker build -t java-runner .", (err) => {
-    if (err) {
-      console.log("BUILD ERROR:", err);
-      return res.json({ output: "Docker build failed" });
+  // compile
+  exec("javac Main.java", (compileErr) => {
+    if (compileErr) {
+      return res.json({ output: compileErr.message });
     }
 
-    const runCommand = `docker run --rm -i java-runner`;
-
-    const process = exec(runCommand, (err, stdout, stderr) => {
+    // run
+    const runProcess = exec("java Main", (err, stdout, stderr) => {
       const output = stdout || stderr || "No output";
       res.json({ output });
     });
 
-    // ✅ FIXED INPUT HANDLING
+    // pass input
     if (input) {
       const formattedInput =
         input
           .split("\n")
-          .map((line) => line.trim())
+          .map((l) => l.trim())
           .join("\n") + "\n";
 
-      process.stdin.write(formattedInput);
+      runProcess.stdin.write(formattedInput);
     }
 
-    process.stdin.end();
+    runProcess.stdin.end();
   });
 });
 
