@@ -26,7 +26,7 @@ function Home() {
     setOutput("Running...");
 
     try {
-      const res = await axios.post("http://localhost:5000/run", {
+      const res = await axios.post("https://devassist-rxwu.onrender.com/run", {
         code,
         input
       });
@@ -42,7 +42,7 @@ function Home() {
     setChat("Thinking...");
 
     try {
-      const res = await axios.post("http://localhost:5000/chat", {
+      const res = await axios.post("https://devassist-rxwu.onrender.com/chat", {
         message: code
       });
 

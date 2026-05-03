@@ -11,7 +11,7 @@ function Snippets() {
 
   // FETCH SNIPPETS
   const fetchSnippets = async () => {
-    const res = await axios.get("http://localhost:5000/snippets");
+    const res = await axios.get("https://devassist-rxwu.onrender.com/snippets");
     setSnippets(res.data);
   };
 
@@ -24,12 +24,12 @@ function Snippets() {
     if (!title || !code) return;
 
     if (selectedId) {
-      await axios.put(`http://localhost:5000/snippets/${selectedId}`, {
+      await axios.put(`https://devassist-rxwu.onrender.com/snippets/${selectedId}`, {
         title,
         code,
       });
     } else {
-      await axios.post("http://localhost:5000/snippets", {
+      await axios.post("https://devassist-rxwu.onrender.com/snippets", {
         title,
         code,
       });
@@ -43,7 +43,7 @@ function Snippets() {
 
   // DELETE
   const deleteSnippet = async (id) => {
-    await axios.delete(`http://localhost:5000/snippets/${id}`);
+    await axios.delete(`https://devassist-rxwu.onrender.com/snippets/${id}`);
     fetchSnippets();
   };
 
