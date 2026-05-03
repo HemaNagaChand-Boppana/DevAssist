@@ -1,7 +1,15 @@
-FROM eclipse-temurin:17
+FROM node:18
+
+# install Java
+RUN apt-get update && apt-get install -y openjdk-17-jdk
 
 WORKDIR /app
 
-COPY Main.java .
+COPY package*.json ./
+RUN npm install
 
-CMD sh -c "javac Main.java 2> compile_error.txt && java Main || cat compile_error.txt"
+COPY . .
+
+EXPOSE 5000
+
+CMD ["node", "server.js"]
